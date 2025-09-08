@@ -57,7 +57,6 @@ Found an error or want to add something? Contributions are welcome!
 ## 📚 Related Resources
 
 - [Official Gradle Documentation](https://docs.gradle.org/)
-- [Gradle Build Tool User Manual](https://docs.gradle.org/current/userguide/userguide.html)
 - [Gradle Plugin Portal](https://plugins.gradle.org/)
 - [Spring Boot Gradle Plugin](https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/htmlsingle/)
 
