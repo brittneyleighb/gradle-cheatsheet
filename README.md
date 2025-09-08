@@ -16,7 +16,7 @@ This cheatsheet covers everything you need to know about Gradle:
 
 ## 🚀 Quick Start
 
-1. **View the cheatsheet**: [Gradle-Cheatsheet.md](Gradle-Cheatsheet.md)
+1. **View the cheatsheet**: [Gradle-Cheatsheet.md](gradle-cheatsheet.md)
 2. **Print-friendly version**: [Download PDF](docs/Gradle-Cheatsheet.pdf) *(coming soon)*
 3. **Interactive version**: [Online cheatsheet](https://your-username.github.io/gradle-cheatsheet) *(coming soon)*
 
