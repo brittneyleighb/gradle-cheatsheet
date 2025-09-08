@@ -64,9 +64,8 @@ Found an error or want to add something? Contributions are welcome!
 ## 🔗 Other Cheatsheets
 
 Looking for more developer references? Check out these other cheatsheets:
-- [Git Commands Cheatsheet](https://github.com/username/git-cheatsheet)
-- [Docker Cheatsheet](https://github.com/username/docker-cheatsheet)
-- [Spring Boot Cheatsheet](https://github.com/username/spring-boot-cheatsheet)
+- [Git & Github Cheatsheet](https://github.com/brittneyleighb/git-github-cheatsheet)
+- [Java Cheatsheet](https://github.com/brittneyleighb/java-cheatsheet)
 
 ## 📄 License
 
