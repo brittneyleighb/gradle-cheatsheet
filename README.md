@@ -470,10 +470,8 @@ jmap -histo [PID]
 
 ### Getting Help
 
-- 📚 [Documentation](https://docs.yourproject.com)
-- 💬 [Discord Community](https://discord.gg/yourproject)
-- 🐛 [Report Issues](https://github.com/username/repo-name/issues)
-- 📧 [Contact Support](mailto:support@yourproject.com)
+- 🐛 [Report Issues](https://github.com/brittneyleighb/repo-name/issues)
+- 📧 [Contact Support](mailto:brittneyleighb@gmail.com)
 
 ## Changelog
 
@@ -499,20 +497,13 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Authors
 
-- **Your Name** - *Initial work* - [@yourusername](https://github.com/yourusername)
+- **Your Name** - *Initial work* - [@brittneyleighb](https://github.com/brittneyleighb)
 - **Contributor** - *Feature additions* - [@contributor](https://github.com/contributor)
 
 See also the list of [contributors](https://github.com/username/repo-name/contributors) who participated in this project.
-
-## Acknowledgments
-
-- Hat tip to anyone whose code was used
-- Inspiration from [similar project](https://github.com/inspiration/project)
-- Thanks to the open source community
-- Special thanks to my advisor, Dr. Smith, for guidance on the algorithm design
 
 ---
 
 **⭐ Star this repo if you find it helpful!**
 
-**📧 Questions? Feel free to [contact me](mailto:your.email@university.edu)**
+**📧 Questions? Feel free to [contact me](mailto:brittneyleighb@gmail.com)**
