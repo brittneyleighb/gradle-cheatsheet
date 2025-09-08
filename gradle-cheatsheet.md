@@ -330,6 +330,57 @@ test {
 
 ## Publishing & Distribution
 
+### Maven Publishing
+```groovy
+apply plugin: 'maven-publish'
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            
+            pom {
+                name = 'My Library'
+                description = 'A concise description of my library'
+                url = 'http://www.example.com/library'
+                
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                
+                developers {
+                    developer {
+                        id = 'johndoe'
+                        name = 'John Doe'
+                        email = 'john.doe@example.com'
+                    }
+                }
+                
+                scm {
+                    connection = 'scm:git:git://example.com/my-library.git'
+                    developerConnection = 'scm:git:ssh://example.com/my-library.git'
+                    url = 'http://example.com/my-library'
+                }
+            }
+        }
+    }
+    
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/username/repository")
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+            }
+        }
+    }
+}
+```
+
 ### JAR Configuration
 ```groovy
 jar {
@@ -380,7 +431,197 @@ gradle.buildFinished { buildResult ->
 }
 ```
 
-## Quick Reference
+## Git Integration & Version Control
+
+### Git-Aware Build Information
+```groovy
+// Automatically include Git info in your build (like stamping dishes with chef info)
+def getGitHash = { ->
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-parse', '--short', 'HEAD'
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}
+
+def getGitBranch = { ->
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-parse', '--abbrev-ref', 'HEAD'
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}
+
+// Use in JAR manifest
+jar {
+    manifest {
+        attributes(
+            'Implementation-Version': version,
+            'Git-Commit': getGitHash(),
+            'Git-Branch': getGitBranch(),
+            'Build-Date': new Date().toString()
+        )
+    }
+}
+```
+
+### Gradle + Git Workflow Commands
+```bash
+# Complete development cycle
+git checkout -b feature/new-algorithm    # Create feature branch
+./gradlew clean build test              # Ensure everything works
+git add .                               # Stage changes
+git commit -m "feat: implement new sorting algorithm"
+./gradlew check                         # Final verification
+git push origin feature/new-algorithm   # Push to remote
+
+# Pre-commit hooks workflow
+./gradlew spotlessCheck                 # Check code formatting
+./gradlew test                          # Run tests before committing
+git add .
+git commit -m "fix: resolve edge case in data processor"
+
+# Release workflow
+git checkout main                       # Switch to main branch
+git pull origin main                    # Get latest changes
+./gradlew clean build                   # Clean build
+./gradlew publishToMavenLocal          # Test publishing
+git tag v1.2.0                         # Tag release
+git push origin v1.2.0                 # Push tag
+./gradlew publish                       # Publish to repository
+```
+
+### Git-Ignore for Gradle Projects
+**`.gitignore`** (what not to include in version control):
+```gitignore
+# Gradle files (don't track build outputs)
+.gradle/
+build/
+gradle-app.setting
+!gradle-wrapper.jar
+
+# IDE files (personal workspace preferences)
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.settings/
+.project
+.classpath
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+
+# Local configuration (secrets and personal settings)
+local.properties
+gradle.properties.local
+
+# Test outputs
+/out/
+/target/
+```
+
+### Version Management with Git Tags
+```groovy
+// Automatically set version based on Git tags
+def getVersionFromGit = { ->
+    try {
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'describe', '--tags', '--always'
+            standardOutput = stdout
+            errorOutput = new ByteArrayOutputStream() // Suppress errors
+        }
+        def version = stdout.toString().trim()
+        return version.startsWith('v') ? version.substring(1) : version
+    } catch (Exception e) {
+        return '0.0.0-SNAPSHOT'
+    }
+}
+
+version = getVersionFromGit()
+```
+
+### Useful Git Commands for Gradle Projects
+```bash
+# Check what files Gradle is ignoring
+git status --ignored
+
+# See what changed since last release
+git log v1.1.0..HEAD --oneline
+
+# Stash changes before switching branches (save work temporarily)
+git stash                               # Save current work
+./gradlew clean                         # Clean build artifacts  
+git checkout main                       # Switch branches
+git stash pop                           # Restore saved work
+
+# Compare branches (useful for code reviews)
+git diff main..feature/new-feature      # See what's different
+./gradlew test                          # Test the differences
+
+# Revert problematic commits
+git revert <commit-hash>                # Safe way to undo changes
+./gradlew clean build test              # Verify everything still works
+
+# Clean up merged branches
+git branch --merged                     # See what's been merged
+git branch -d feature/completed-feature # Delete merged branches
+./gradlew clean                         # Clean old build artifacts
+```
+
+### Git Hooks for Gradle Projects
+**`.git/hooks/pre-commit`** (run checks before each commit):
+```bash
+#!/bin/sh
+# Pre-commit hook to run Gradle checks
+
+echo "Running pre-commit checks..."
+
+# Run code formatting check
+./gradlew spotlessCheck
+if [ $? -ne 0 ]; then
+    echo "Code formatting check failed. Run './gradlew spotlessApply' to fix."
+    exit 1
+fi
+
+# Run tests
+./gradlew test
+if [ $? -ne 0 ]; then
+    echo "Tests failed. Please fix before committing."
+    exit 1
+fi
+
+echo "All checks passed!"
+```
+
+**`.git/hooks/pre-push`** (run before pushing to remote):
+```bash
+#!/bin/sh
+# Pre-push hook to run full build
+
+echo "Running pre-push validation..."
+
+# Full clean build
+./gradlew clean build
+if [ $? -ne 0 ]; then
+    echo "Build failed. Cannot push."
+    exit 1
+fi
+
+echo "Build successful. Proceeding with push."
+```
 
 ### Most Used Commands
 ```bash
