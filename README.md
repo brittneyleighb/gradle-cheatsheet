@@ -36,21 +36,6 @@
 - 📊 **Analytics** - Built-in metrics and monitoring
 - 🌐 **Multi-language** - Supports English, Spanish, and French
 
-## Demo
-
-### Live Demo
-🔗 [View Live Demo](https://your-project-demo.com)
-
-### Screenshots
-![Main Dashboard](docs/images/dashboard.png)
-*Main dashboard showing real-time analytics*
-
-![Mobile View](docs/images/mobile.png)
-*Responsive mobile interface*
-
-### Video Demo
-[![Demo Video](https://img.youtube.com/vi/VIDEO_ID/0.jpg)](https://www.youtube.com/watch?v=VIDEO_ID)
-
 ## Installation
 
 ### Prerequisites
@@ -407,9 +392,6 @@ spec:
                    │   (Redis)   │    │(PostgreSQL) │
                    └─────────────┘    └─────────────┘
 ```
-
-### Database Schema
-![Database Schema](docs/images/database-schema.png)
 
 ### Design Patterns Used
 - **Repository Pattern** - Data access abstraction
