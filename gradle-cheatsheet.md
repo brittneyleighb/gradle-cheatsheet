@@ -5,6 +5,12 @@
 ## What is Gradle?
 Think of Gradle as a **master chef** for your code kitchen. It takes your raw ingredients (source code, dependencies, resources) and follows recipes (build scripts) to create finished dishes (compiled applications, JARs, etc.). Just like a chef coordinates multiple cooking processes, Gradle orchestrates compilation, testing, packaging, and deployment.
 
+## Gradle in one picture
+
+Gradle is the coordinator for a software build. You describe the project, its dependencies, and the work that must happen; Gradle creates and runs the task graph needed to produce a tested artifact.
+
+Read it in this order: **project and plugins** → **tasks** → **dependencies** → **build scripts** → **multi-project builds**.
+
 ## Core Concepts
 
 ### Projects & Tasks
