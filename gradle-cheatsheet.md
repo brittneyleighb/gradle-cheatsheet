@@ -91,6 +91,10 @@ dependencies {
 application {
     mainClass = 'com.example.Main'
 }
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
 ```
 
 ### Kotlin DSL Version (`build.gradle.kts`)
