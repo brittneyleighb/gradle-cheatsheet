@@ -1,5 +1,7 @@
 # Gradle Cheatsheet
 
+> **Scope:** Examples use the Java/Application plugin unless they explicitly say Android or Spring Boot. Gradle conventions and dependency versions evolve; verify production build files against the [current Gradle documentation](https://docs.gradle.org/current/userguide/userguide.html).
+
 ## What is Gradle?
 Think of Gradle as a **master chef** for your code kitchen. It takes your raw ingredients (source code, dependencies, resources) and follows recipes (build scripts) to create finished dishes (compiled applications, JARs, etc.). Just like a chef coordinates multiple cooking processes, Gradle orchestrates compilation, testing, packaging, and deployment.
 
@@ -81,7 +83,8 @@ repositories {
 // Your ingredient list
 dependencies {
     implementation 'org.apache.commons:commons-lang3:3.12.0'
-    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.11.0'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 // Main dish specification
@@ -103,7 +106,8 @@ repositories {
 
 dependencies {
     implementation("org.apache.commons:commons-lang3:3.12.0")
-    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.11.0")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 application {
@@ -131,12 +135,14 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     
-    // Development tools (like having a dishwasher in the kitchen)
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    // Spring Boot only: `developmentOnly` is added by the Spring Boot plugin.
+    // developmentOnly 'org.springframework.boot:spring-boot-devtools'
 }
 ```
 
 ### Version Management
+
+This example uses extra properties, an older but still readable approach. For shared versioned dependencies in new projects, prefer Gradle version catalogs.
 ```groovy
 // Version catalog (like a price list from suppliers)
 ext {
@@ -155,13 +161,14 @@ dependencies {
 ### Custom Tasks
 ```groovy
 // Creating your own cooking procedure
-task customClean(type: Delete) {
+tasks.register('customClean', Delete) {
     description = 'Custom cleanup procedure'
     delete 'build/custom'
 }
 
 // Task that depends on others (like needing chopped onions before sautéing)
-task packageApp(dependsOn: ['build', 'customClean']) {
+tasks.register('packageApp') {
+    dependsOn 'build', 'customClean'
     doLast {
         println 'Packaging application...'
         // Custom packaging logic
@@ -208,7 +215,8 @@ subprojects {
     apply plugin: 'java'
     
     dependencies {
-        testImplementation 'junit:junit:4.13.2'
+        testImplementation 'org.junit.jupiter:junit-jupiter:5.11.0'
+        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     }
 }
 ```
