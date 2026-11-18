@@ -11,6 +11,14 @@ Gradle is the coordinator for a software build. You describe the project, its de
 
 Read it in this order: **project and plugins** → **tasks** → **dependencies** → **build scripts** → **multi-project builds**.
 
+## Try it safely
+
+**Predict:** what should happen before you act.  
+**Try:** use a local, reversible example.  
+**Explain:** describe the result in your own words.
+
+Open any small Gradle project and run `./gradlew tasks`. Predict which task compiles code, which runs tests, and which creates a JAR before reading their descriptions. Then run `./gradlew build` and trace which tasks actually execute.
+
 ## Core Concepts
 
 ### Projects & Tasks
